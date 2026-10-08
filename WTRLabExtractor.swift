@@ -34,8 +34,10 @@ struct WTRLabExtractor: Sendable {
             throw WTRLabError.chapterNumberNotFound
         }
 
+        let rawID = try rawID(from: url)
+
         let response = try await apiClient.fetchChapter(
-            rawID: 509,
+            rawID: rawID,
             chapterNumber: chapterNumber,
             cookie: cookie
         )
@@ -135,6 +137,47 @@ struct WTRLabExtractor: Sendable {
         }
 
         return nil
+    }
+
+    // MARK: - Novel ID
+
+    private func rawID(
+        from url: URL
+    ) throws -> Int {
+
+        let path = url.path
+
+        let pattern = #"/novel/(\d+)/"#
+
+        guard let regex = try? NSRegularExpression(
+            pattern: pattern,
+            options: [.caseInsensitive]
+        ) else {
+            throw WTRLabError.invalidURL
+        }
+
+        let range = NSRange(
+            path.startIndex..<path.endIndex,
+            in: path
+        )
+
+        guard let match = regex.firstMatch(
+            in: path,
+            options: [],
+            range: range
+        ) else {
+            throw WTRLabError.invalidURL
+        }
+
+        guard let idRange = Range(
+            match.range(at: 1),
+            in: path
+        ),
+        let id = Int(path[idRange]) else {
+            throw WTRLabError.invalidURL
+        }
+
+        return id
     }
 
     // MARK: - Next Chapter
