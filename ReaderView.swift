@@ -2,7 +2,8 @@ import SwiftUI
 
 struct ReaderView: View {
     @StateObject private var playback = SpeechPlaybackManager()
-    @StateObject private var wtrLabSession = WTRLabSession()
+    @StateObject private var wtrLabAuthManager = WTRLabAuthManager()
+    @State private var isShowingWTRLabLogin = false
     @State private var text =
         "Paste a few paragraphs here, then tap Start Reading. Lock the iPhone to check that playback continues."
     @State private var urlString = ""
@@ -10,7 +11,6 @@ struct ReaderView: View {
     @State private var nextChapterURL: URL?
     @State private var isLoading = false
     @State private var loadingError: String?
-    @State private var wtrLabCookieInput = ""
 
     var body: some View {
         NavigationStack {
@@ -20,8 +20,8 @@ struct ReaderView: View {
                         urlString: $urlString,
                         isLoading: isLoading,
                         loadingError: loadingError,
-                        wtrLabCookieInput: $wtrLabCookieInput,
-                        setWTRLabCookie: setWTRLabCookie,
+                        wtrLabAuthManager: wtrLabAuthManager,
+                        openWTRLabLogin: { isShowingWTRLabLogin = true },
                         loadChapter: loadChapter
                     )
 
@@ -35,6 +35,12 @@ struct ReaderView: View {
                 .padding()
             }
             .navigationTitle("NovelReader")
+            .task {
+                await wtrLabAuthManager.restoreSession()
+            }
+            .sheet(isPresented: $isShowingWTRLabLogin) {
+                WTRLabLoginView(authManager: wtrLabAuthManager)
+            }
             .onChange(of: playback.completedChapterID) { _, completedChapterID in
                 guard let currentChapter,
                       completedChapterID == currentChapter.id,
@@ -79,13 +85,13 @@ struct ReaderView: View {
                 let article: ExtractedArticle
 
                 if let requestedURL, WTRLabExtractor.supports(requestedURL) {
-                    guard !wtrLabSession.cookie.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                    guard !wtrLabAuthManager.cookie.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
                         throw WTRLabError.missingCookie
                     }
                     pageURL = requestedURL
                     article = try await WTRLabExtractor().extract(
                         from: requestedURL,
-                        cookie: wtrLabSession.cookie
+                        cookie: wtrLabAuthManager.cookie
                     )
                 } else {
                     let page = try await WebPageLoader().loadPage(from: sourceURL)
@@ -124,18 +130,14 @@ struct ReaderView: View {
         }
     }
 
-    private func setWTRLabCookie() {
-        wtrLabSession.cookie = wtrLabCookieInput.trimmingCharacters(in: .whitespacesAndNewlines)
-        wtrLabCookieInput = ""
-    }
 }
 
 private struct ChapterURLInput: View {
     @Binding var urlString: String
     let isLoading: Bool
     let loadingError: String?
-    @Binding var wtrLabCookieInput: String
-    let setWTRLabCookie: () -> Void
+    @ObservedObject var wtrLabAuthManager: WTRLabAuthManager
+    let openWTRLabLogin: () -> Void
     let loadChapter: () -> Void
 
     var body: some View {
@@ -147,20 +149,31 @@ private struct ChapterURLInput: View {
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
                 .keyboardType(.URL)
-            .textFieldStyle(.roundedBorder)
+                .textFieldStyle(.roundedBorder)
 
             VStack(alignment: .leading, spacing: 6) {
                 Text("WTR-LAB")
                     .font(.subheadline.weight(.semibold))
 
-                SecureField("Cookie", text: $wtrLabCookieInput)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
-                    .textFieldStyle(.roundedBorder)
+                Text(wtrLabAuthManager.statusMessage)
+                    .font(.caption)
+                    .foregroundStyle(
+                        wtrLabAuthManager.hasSavedSession
+                            ? Color.secondary
+                            : Color.orange
+                    )
 
-                Button("Set Cookie", action: setWTRLabCookie)
-                    .buttonStyle(.bordered)
-                    .disabled(wtrLabCookieInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                HStack {
+                    Button(wtrLabAuthManager.hasSavedSession ? "Refresh Login" : "Sign in to WTR-LAB", action: openWTRLabLogin)
+                        .buttonStyle(.bordered)
+
+                    if wtrLabAuthManager.hasSavedSession {
+                        Button("Sign Out", role: .destructive) {
+                            Task { await wtrLabAuthManager.signOut() }
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                }
             }
 
             Button(action: loadChapter) {
@@ -181,7 +194,6 @@ private struct ChapterURLInput: View {
                     .font(.caption)
                     .foregroundStyle(.red)
             }
-
         }
     }
 }

@@ -13,10 +13,13 @@
 		2134ED21306ECE6400138EB3 /* ArticleExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2134ED1E306ECA4200138EB3 /* ArticleExtractor.swift */; };
 		2134ED23306F265600138EB3 /* WTRLabModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2134ED22306F265600138EB3 /* WTRLabModels.swift */; };
 		2151EC3A307017700024ED95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2151EC39307017700024ED95 /* Assets.xcassets */; };
+		21A94779307AA5BA00D549E7 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A94776307AA5BA00D549E7 /* KeychainHelper.swift */; };
+		21A9477A307AA5BA00D549E7 /* WTRLabAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A94777307AA5BA00D549E7 /* WTRLabAuthManager.swift */; };
+		21A9477B307AA5BA00D549E7 /* WTRLabLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A94778307AA5BA00D549E7 /* WTRLabLoginView.swift */; };
+		21A9477D307AA5D800D549E7 /* ReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A9477C307AA5D800D549E7 /* ReaderView.swift */; };
 		21F77C79306F28E1003976E0 /* WTRLabAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F77C78306F28E1003976E0 /* WTRLabAPIClient.swift */; };
 		21F77C7B306F28E1003976E0 /* WTRLabExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F77C7A306F28E1003976E0 /* WTRLabExtractor.swift */; };
 		A10000000000000000000001 /* NovelReaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000001 /* NovelReaderApp.swift */; };
-		A10000000000000000000002 /* ReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000002 /* ReaderView.swift */; };
 		A10000000000000000000003 /* SpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000003 /* SpeechManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,10 +30,13 @@
 		2134ED1E306ECA4200138EB3 /* ArticleExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleExtractor.swift; sourceTree = "<group>"; };
 		2134ED22306F265600138EB3 /* WTRLabModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WTRLabModels.swift; sourceTree = "<group>"; };
 		2151EC39307017700024ED95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		21A94776307AA5BA00D549E7 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
+		21A94777307AA5BA00D549E7 /* WTRLabAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WTRLabAuthManager.swift; sourceTree = "<group>"; };
+		21A94778307AA5BA00D549E7 /* WTRLabLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WTRLabLoginView.swift; sourceTree = "<group>"; };
+		21A9477C307AA5D800D549E7 /* ReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderView.swift; sourceTree = "<group>"; };
 		21F77C78306F28E1003976E0 /* WTRLabAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WTRLabAPIClient.swift; sourceTree = "<group>"; };
 		21F77C7A306F28E1003976E0 /* WTRLabExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WTRLabExtractor.swift; sourceTree = "<group>"; };
 		B10000000000000000000001 /* NovelReaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelReaderApp.swift; sourceTree = "<group>"; };
-		B10000000000000000000002 /* ReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderView.swift; sourceTree = "<group>"; };
 		B10000000000000000000003 /* SpeechManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechManager.swift; sourceTree = "<group>"; };
 		B10000000000000000000004 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B10000000000000000000005 /* NovelReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NovelReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,6 +63,9 @@
 				2134ED22306F265600138EB3 /* WTRLabModels.swift */,
 				21F77C78306F28E1003976E0 /* WTRLabAPIClient.swift */,
 				21F77C7A306F28E1003976E0 /* WTRLabExtractor.swift */,
+				21A94776307AA5BA00D549E7 /* KeychainHelper.swift */,
+				21A94777307AA5BA00D549E7 /* WTRLabAuthManager.swift */,
+				21A94778307AA5BA00D549E7 /* WTRLabLoginView.swift */,
 				2151EC39307017700024ED95 /* Assets.xcassets */,
 				D10000000000000000000003 /* Products */,
 			);
@@ -65,9 +74,9 @@
 		D10000000000000000000002 = {
 			isa = PBXGroup;
 			children = (
+				21A9477C307AA5D800D549E7 /* ReaderView.swift */,
 				B10000000000000000000001 /* NovelReaderApp.swift */,
 				2134ED1A306EC25C00138EB3 /* VoicePickerView.swift */,
-				B10000000000000000000002 /* ReaderView.swift */,
 				B10000000000000000000003 /* SpeechManager.swift */,
 				B10000000000000000000004 /* Info.plist */,
 			);
@@ -147,9 +156,12 @@
 				2134ED20306ECE5800138EB3 /* WebPageLoader.swift in Sources */,
 				A10000000000000000000001 /* NovelReaderApp.swift in Sources */,
 				2134ED1F306ECE5200138EB3 /* Chapter.swift in Sources */,
-				A10000000000000000000002 /* ReaderView.swift in Sources */,
 				2134ED21306ECE6400138EB3 /* ArticleExtractor.swift in Sources */,
 				2134ED23306F265600138EB3 /* WTRLabModels.swift in Sources */,
+				21A94779307AA5BA00D549E7 /* KeychainHelper.swift in Sources */,
+				21A9477A307AA5BA00D549E7 /* WTRLabAuthManager.swift in Sources */,
+				21A9477D307AA5D800D549E7 /* ReaderView.swift in Sources */,
+				21A9477B307AA5BA00D549E7 /* WTRLabLoginView.swift in Sources */,
 				A10000000000000000000003 /* SpeechManager.swift in Sources */,
 				21F77C79306F28E1003976E0 /* WTRLabAPIClient.swift in Sources */,
 				21F77C7B306F28E1003976E0 /* WTRLabExtractor.swift in Sources */,
